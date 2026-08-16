@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orden de Venta y Contrato de Corretaje Inmobiliario</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Palette Option 1: Terracotta & Forest (Default) */
+            --primary: #C85A32;        /* Terracotta Warm */
+            --primary-dark: #A24220;   /* Terracotta Dark */
+            --secondary: #1B4D3E;      /* Forest Green */
+            --secondary-light: #2A6F5A;/* Forest Light */
+            --accent: #D99B26;         /* Mustard Accent */
+            --accent-bg: #FFFBF0;     /* Ochre Light Tint */
+            --bg-page: #F4F5F7;
+            --surface: #FFFFFF;
+            --text-main: #1E293B;
+            --text-muted: #64748B;
+            --border-color: #CBD5E1;
+            --border-dark: #94A3B8;
+            --input-bg: #FAFAFA;
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        /* Palette Theme 2: Forest Dominant */
+        body.theme-forest {
+            --primary: #1B4D3E;
+            --primary-dark: #12372C;
+            --secondary: #C85A32;
+            --secondary-light: #E07A5F;
+            --accent: #D99B26;
+            --accent-bg: #F4F9F6;
+        }
+
+        /* Palette Theme 3: Warm Terracotta & Ochre */
+        body.theme-mustard {
+            --primary: #B87333;
+            --primary-dark: #8C5320;
+            --secondary: #2C3E50;
+            --secondary-light: #34495E;
+            --accent: #D99B26;
+            --accent-bg: #FFFDF5;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            line-height: 1.4;
+            padding-bottom: 40px;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        .no-print-toolbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: #0F172A;
+            color: #FFFFFF;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .toolbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #F8FAFC;
+        }
+
+        .toolbar-brand span {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .toolbar-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: var(--radius-md);
+            border: none;
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #334155;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background: #475569;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #E2E8F0;
+            border: 1px solid #475569;
+        }
+        .btn-outline:hover {
+            background: #1E293B;
+            color: white;
+        }
+
+        .theme-selector {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #94A3B8;
+        }
+
+        .theme-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.2s;
+        }
+        .theme-dot:hover {
+            transform: scale(1.15);
+        }
+        .theme-dot.active {
+            border-color: white;
+        }
+
+        .document-wrapper {
+            max-width: 920px;
+            margin: 28px auto;
+            background: var(--surface);
+            padding: 40px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .doc-header {
+            display: grid;
+            grid-template-columns: 180px 1fr 220px;
+            gap: 20px;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .company-logo-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 10px;
+            background: #FAF8F5;
+            text-align: center;
+        }
+
+        .logo-placeholder-icon {
+            width: 42px;
+            height: 42px;
+            fill: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .company-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .doc-title-block {
+            text-align: center;
+        }
+
+        .doc-main-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: var(--secondary);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+
+        .doc-subtitle {
+            font-size: 0.82rem;
+            color: var(--primary);
+            font-weight: 700;
+            margin-top: 4px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .doc-meta-box {
+            background: var(--accent-bg);
+            border: 1.5px solid var(--accent);
+            border-radius: var(--radius-md);
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .meta-field {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.85rem;
+        }
+
+        .meta-label {
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .meta-input {
+            width: 110px;
+            padding: 4px 8px;
+            border: 1px solid var(--border-dark);
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+            background: white;
+        }
+
+        .auth-banner {
+            background: #F8FAFC;
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--secondary);
+            border-radius: var(--radius-sm);
+            padding: 14px;
+            margin-bottom: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .auth-row-1 {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .modality-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-main);
+            cursor: pointer;
+        }
+
+        .checkbox-label input[type="checkbox"],
+        .checkbox-label input[type="radio"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .date-range-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .auth-row-2 {
+            font-size: 0.88rem;
+            line-height: 1.6;
+            color: var(--text-main);
+        }
+
+        .underline-input {
+            border: none;
+            border-bottom: 1.5px solid var(--border-dark);
+            background: transparent;
+            padding: 2px 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .underline-input:focus {
+            border-bottom-color: var(--primary);
+            background: #FFF;
+        }
+
+        .underline-input.full-width {
+            width: 100%;
+        }
+
+        .section-card {
+            margin-bottom: 22px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .section-header {
+            background: linear-gradient(90deg, var(--secondary) 0%, var(--secondary-light) 100%);
+            color: white;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-badge {
+            background: var(--accent);
+            color: #1E293B;
+            font-size: 0.72rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 12px;
+            text-transform: uppercase;
+        }
+
+        .section-body {
+            padding: 16px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px 16px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px 16px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px 16px;
+        }
+
+        .grid-6 {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+        }
+
+        .field-box {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .field-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 6px 10px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            font-size: 0.88rem;
+            font-family: inherit;
+            color: var(--text-main);
+            background-color: var(--input-bg);
+            transition: all 0.2s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: #FFFFFF;
+            box-shadow: 0 0 0 2px rgba(200, 90, 50, 0.15);
+        }
+
+        .distribution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 10px;
+            background: #F8FAFC;
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            border: 1px solid #E2E8F0;
+        }
+
+        .dist-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 6px 10px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+        }
+
+        .dist-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .dist-value {
+            width: 45px;
+            padding: 2px 4px;
+            text-align: center;
+            font-weight: 700;
+            border: 1px solid var(--border-dark);
+            border-radius: 3px;
+            font-size: 0.85rem;
+        }
+
+        .legal-clauses-box {
+            background: #FFFBF7;
+            border: 1.5px solid var(--primary);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            margin-bottom: 22px;
+        }
+
+        .legal-header {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid rgba(200, 90, 50, 0.2);
+            padding-bottom: 6px;
+        }
+
+        .legal-text {
+            font-size: 0.78rem;
+            color: #334155;
+            text-align: justify;
+            line-height: 1.5;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .legal-clause-item {
+            position: relative;
+            padding-left: 14px;
+        }
+
+        .legal-clause-item::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .legal-highlight {
+            font-weight: 700;
+            color: var(--secondary);
+            background: rgba(217, 155, 38, 0.15);
+            padding: 0 4px;
+            border-radius: 2px;
+        }
+
+        .signature-section {
+            margin-top: 28px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            page-break-inside: avoid;
+        }
+
+        .signature-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 18px 14px 12px 14px;
+            background: #FAFAFA;
+            position: relative;
+        }
+
+        .signature-line {
+            width: 80%;
+            height: 1px;
+            background-color: var(--border-dark);
+            margin-top: 45px;
+            margin-bottom: 10px;
+        }
+
+        .sig-title {
+            font-weight: 800;
+            font-size: 0.82rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+        }
+
+        .sig-detail {
+            font-size: 0.76rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .doc-footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            padding-top: 10px;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .no-print-toolbar {
+                display: none !important;
+            }
+
+            .document-wrapper {
+                max-width: 100%;
+                margin: 0;
+                padding: 12px 18px;
+                border: none;
+                box-shadow: none;
+            }
+
+            .section-card {
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+
+            .legal-clauses-box {
+                page-break-inside: avoid;
+            }
+
+            .signature-section {
+                page-break-inside: avoid;
+            }
+
+            .form-control, .underline-input {
+                background-color: transparent !important;
+            }
+
+            @page {
+                size: letter portrait;
+                margin: 12mm 10mm 12mm 10mm;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="no-print-toolbar">
+        <div class="toolbar-brand">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span>Loreto Ignacia Gestión & Asesoría Inmobiliaria</span>
+        </div>
+
+        <div class="toolbar-actions">
+            <div class="theme-selector">
+                <span>Tema:</span>
+                <div class="theme-dot active" style="background: #C85A32;" onclick="setTheme('')" title="Terracota & Verde Bosque"></div>
+                <div class="theme-dot" style="background: #1B4D3E;" onclick="setTheme('theme-forest')" title="Verde Bosque Dominante"></div>
+                <div class="theme-dot" style="background: #B87333;" onclick="setTheme('theme-mustard')" title="Mostaza & Cobre"></div>
+            </div>
+
+            <button class="btn btn-outline" onclick="fillSampleData()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                Cargar Ejemplo
+            </button>
+
+            <button class="btn btn-secondary" onclick="clearForm()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                Limpiar
+            </button>
+
+            <button class="btn btn-primary" onclick="window.print()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                Imprimir / PDF
+            </button>
+        </div>
+    </div>
+
+    <div class="document-wrapper">
+
+        <header class="doc-header">
+            <div class="company-logo-area">
+                <svg class="logo-placeholder-icon" viewBox="0 0 24 24">
+                    <path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3zm0 2.84L18 11v7h-2v-6H8v6H6v-7l6-5.16z"/>
+                </svg>
+                <div class="company-title">Loreto Ignacia Asesorías Inmobiliarias</div>
+            </div>
+
+            <div class="doc-title-block">
+                <h1 class="doc-main-title">Orden de Venta</h1>
+                <div class="doc-subtitle">Exclusividad & Mandato de Corretaje</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 3px;">Administraciones • Tasaciones • Gestión Legal</div>
+            </div>
+
+            <div class="doc-meta-box">
+                <div class="meta-field">
+                    <span class="meta-label">ORDEN N°:</span>
+                    <input type="text" class="meta-input" id="num_orden" placeholder="0001-2026">
+                </div>
+                <div class="meta-field">
+                    <span class="meta-label">FECHA:</span>
+                    <input type="date" class="meta-input" id="fecha_orden">
+                </div>
+            </div>
+        </header>
+
+        <div class="auth-banner">
+            <div class="auth-row-1">
+                <div class="modality-group">
+                    <label class="checkbox-label">
+                        <input type="radio" name="exclusividad" value="exclusiva" id="radio_exclusiva" checked>
+                        <span>CON EXCLUSIVIDAD</span>
+                    </label>
+                    <span style="color: #CBD5E1;">|</span>
+                    <label class="checkbox-label">
+                        <input type="radio" name="exclusividad" value="sin_exclusividad" id="radio_sin_exclusiva">
+                        <span>SIN EXCLUSIVIDAD</span>
+                    </label>
+                </div>
+
+                <div class="date-range-group">
+                    <span>Vigencia Desde:</span>
+                    <input type="date" class="underline-input" id="vigencia_desde" style="width: 125px;">
+                    <span>Hasta:</span>
+                    <input type="date" class="underline-input" id="vigencia_hasta" style="width: 125px;">
+                </div>
+            </div>
+
+            <div class="auth-row-2">
+                Por la presente, autorizo formal y expresamente a la empresa de asesoría e intermediación inmobiliaria 
+                <input type="text" class="underline-input" id="nombre_corredor" placeholder="Nombre Asesoría / Corredor de Propiedades" style="width: 280px; font-weight: 700;"> 
+                para ofrecer en venta / arriendo la propiedad ubicada en: 
+                <input type="text" class="underline-input" id="direccion_inmueble" placeholder="Dirección completa del inmueble (Calle, N°, Dpto, Comuna, Ciudad)" style="width: 100%; margin-top: 6px; font-weight: 700;">
+            </div>
+        </div>
+
+        <section class="section-card">
+            <div class="section-header">
+                <div class="section-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    A. De la Propiedad
+                </div>
+                <span class="section-badge">Especificaciones Téchnicas</span>
+            </div>
+            <div class="section-body">
+                <div class="grid-3" style="margin-bottom: 12px;">
+                    <div class="field-box">
+                        <label class="field-label">1. Estado Ocupacional</label>
+                        <select class="form-control" id="prop_habitada">
+                            <option value="Habitada por propietario">Habitada por Propietario</option>
+                            <option value="Habitada por arrendatario">Habitada por Arrendatario</option>
+                            <option value="Desocupada">Desocupada / Entrega Inmediata</option>
+                        </select>
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label">Año de Construcción</label>
+                        <input type="text" class="form-control" id="prop_anio" placeholder="Ej: 2018">
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label">Horario de Visitas</label>
+                        <input type="text" class="form-control" id="prop_horarios" placeholder="Ej: Lunes a Viernes 15:00-19:00 hrs">
+                    </div>
+                </div>
+
+                <div class="grid-3" style="margin-bottom: 12px;">
+                    <div class="field-box">
+                        <label class="field-label">2. Tipo de Propiedad</label>
+                        <input type="text" class="form-control" id="prop_tipo" placeholder="Ej: Casa / Departamento / Sitio / Oficina">
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label">3. Tipo de Construcción</label>
+                        <input type="text" class="form-control" id="prop_material" placeholder="Ej: Hormigón / Albañilería / Estructura">
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label">Piso / N° Nivel</label>
+                        <input type="text" class="form-control" id="prop_piso" placeholder="Ej: Piso 8 / 2 Plantas">
+                    </div>
+                </div>
+
+                <div class="grid-4" style="margin-bottom: 12px;">
+                    <div class="field-box">
+                        <label class="field-label">4. Sup. Terreno (m²)</label>
+                        <input type="text" class="form-control" id="prop_sup_terreno" placeholder="000 m²">
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label">Frente (m)</label>
+                        <input type="text" class="form-control" id="prop_frente" placeholder="00 m">
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label">Fondo (m)</label>
+                        <input type="text" class="form-control" id="prop_fondo" placeholder="00 m">
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label">Sup. Construida (m²)</label>
+                        <input type="text" class="form-control" id="prop_sup_const" placeholder="000 m²">
+                    </div>
+                </div>
+
+                <div class="grid-3" style="margin-bottom: 12px;">
+                    <div class="field-box">
+                        <label class="field-label">5. Gastos Comunes ($)</label>
+                        <input type="text" class="form-control" id="prop_gastos_comunes" placeholder="$ 00.000 Aprox.">
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label">Contribuciones ($)</label>
+                        <input type="text" class="form-control" id="prop_contribuciones" placeholder="$ 00.000 Cuota">
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label">6. N° ROL Propiedad</label>
+                        <input type="text" class="form-control" id="prop_rol" placeholder="Ej: 1234-56" style="font-weight: 700;">
+                    </div>
+                </div>
+
+                <div class="grid-3">
+                    <div class="field-box">
+                        <label class="field-label">Manzana</label>
+                        <input type="text" class="form-control" id="prop_manzana" placeholder="N° Manzana">
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label">Lote</label>
+                        <input type="text" class="form-control" id="prop_lote" placeholder="N° Lote / Sitio">
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label">7. Estado de los Títulos</label>
+                        <input type="text" class="form-control" id="prop_estado_titulos" placeholder="Ej: Al día / En Hipoteca / Estudio Pendiente">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <div class="section-header">
+                <div class="section-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                    B. Distribución y Características
+                </div>
+                <span class="section-badge">Dependencias</span>
+            </div>
+            <div class="section-body">
+                <div class="distribution-grid">
+                    <div class="dist-item">
+                        <span class="dist-label">Dormitorios</span>
+                        <input type="text" class="dist-value" id="dist_dorm" placeholder="0">
+                    </div>
+                    <div class="dist-item">
+                        <span class="dist-label">Baños</span>
+                        <input type="text" class="dist-value" id="dist_banos" placeholder="0">
+                    </div>
+                    <div class="dist-item">
+                        <span class="dist-label">Dependencias</span>
+                        <input type="text" class="dist-value" id="dist_dependencias" placeholder="0">
+                    </div>
+                    <div class="dist-item">
+                        <span class="dist-label">Bodegas</span>
+                        <input type="text" class="dist-value" id="dist_bodegas" placeholder="0">
+                    </div>
+                    <div class="dist-item">
+                        <span class="dist-label">Estacionam.</span>
+                        <input type="text" class="dist-value" id="dist_estac" placeholder="0">
+                    </div>
+                    <div class="dist-item">
+                        <span class="dist-label">En Suite</span>
+                        <input type="text" class="dist-value" id="dist_suite" placeholder="0">
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 20px; align-items: center; margin-top: 12px; padding: 6px 10px; background: #FAFAFA; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                    <span style="font-size: 0.8rem; font-weight: 700; color: var(--secondary);">Equipamiento adicional:</span>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="check_amoblada"> Amoblada
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="check_piscina"> Piscina
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="check_loggia"> Loggia / Lavadero
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="check_quincho"> Quincho / Terrazas
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <div class="section-header">
+                <div class="section-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                    C. Valor Comercial y Documentación
+                </div>
+                <span class="section-badge">Legal & Financiero</span>
+            </div>
+            <div class="section-body">
+                <div class="grid-3" style="margin-bottom: 12px;">
+                    <div class="field-box" style="background: var(--accent-bg); padding: 6px 10px; border-radius: var(--radius-sm); border: 1px solid var(--accent);">
+                        <label class="field-label" style="color: var(--primary-dark);">PRECIO VENTA DESEADO</label>
+                        <input type="text" class="form-control" id="val_precio_venta" placeholder="UF / $ CLP" style="font-weight: 800; font-size: 1rem; color: var(--primary-dark);">
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label">1. Tasación Fiscal ($)</label>
+                        <input type="text" class="form-control" id="val_tas_fiscal" placeholder="$ 00.000.000">
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label">Tasación Bancaria / Comercial</label>
+                        <input type="text" class="form-control" id="val_tas_bancaria" placeholder="$ 00.000.000">
+                    </div>
+                </div>
+
+                <div class="grid-4" style="margin-bottom: 12px;">
+                    <div class="field-box">
+                        <label class="field-label">2. Escritura Inscrita Fojas</label>
+                        <input type="text" class="form-control" id="escritura_fojas" placeholder="Fojas N°">
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label">Número</label>
+                        <input type="text" class="form-control" id="escritura_numero" placeholder="Número">
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label">Año</label>
+                        <input type="text" class="form-control" id="escritura_anio" placeholder="Año">
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label">Ciudad / CBR</label>
+                        <input type="text" class="form-control" id="escritura_cbr" placeholder="CBR de...">
+                    </div>
+                </div>
+
+                <div class="grid-3">
+                    <div class="field-box">
+                        <label class="field-label">3. Copia de Escritura Entregada</label>
+                        <select class="form-control" id="doc_copia_escritura">
+                            <option value="SI">SÍ - Entregada</option>
+                            <option value="NO">NO - Pendiente</option>
+                        </select>
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label">Fotografía de la Propiedad</label>
+                        <select class="form-control" id="doc_fotografia">
+                            <option value="Digital / Alta Resolución">Soporte Digital / HD</option>
+                            <option value="Papel / Soporte Rígido">Papel / Soporte Rígido</option>
+                            <option value="Por Elaborar">A ser tomadas por el Corredor</option>
+                        </select>
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label">4. Autorización de Letrero</label>
+                        <select class="form-control" id="doc_letrero">
+                            <option value="SI">SÍ - Instalación Autorizada</option>
+                            <option value="NO">NO Autorizado</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <div class="section-header">
+                <div class="section-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>
+                    D. Del Propietario / Mandante
+                </div>
+                <span class="section-badge">Sujeto de Derecho</span>
+            </div>
+            <div class="section-body">
+                <div class="grid-2" style="margin-bottom: 12px;">
+                    <div class="field-box">
+                        <label class="field-label">1. Nombre Propietario(s) o Representante Legal</label>
+                        <input type="text" class="form-control" id="prop_nombre" placeholder="Nombre completo o Razón Social" style="font-weight: 700;">
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label">R.U.T. / C.I.</label>
+                        <input type="text" class="form-control" id="prop_rut" placeholder="XX.XXX.XXX-K" style="font-weight: 700;">
+                    </div>
+                </div>
+
+                <div class="grid-3" style="margin-bottom: 12px;">
+                    <div class="field-box">
+                        <label class="field-label">2. Teléfono Móvil / Celular</label>
+                        <input type="text" class="form-control" id="prop_celular" placeholder="+56 9 XXXX XXXX">
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label">Teléfono Fijo / Oficina</label>
+                        <input type="text" class="form-control" id="prop_telefono" placeholder="+56 XX XXXXXXX">
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label">Correo Electrónico</label>
+                        <input type="email" class="form-control" id="prop_email" placeholder="propietario@email.com">
+                    </div>
+                </div>
+
+                <div class="field-box" style="margin-bottom: 12px;">
+                    <label class="field-label">3. Domicilio Legal Particular / Comercial</label>
+                    <input type="text" class="form-control" id="prop_domicilio" placeholder="Calle, Número, Depto/Oficina, Comuna, Ciudad">
+                </div>
+
+                <div class="grid-3">
+                    <div class="field-box">
+                        <label class="field-label">4. Nombre del Cónyuge / Co-propietario</label>
+                        <input type="text" class="form-control" id="prop_conyuge_nombre" placeholder="Nombre completo cónyuge">
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label">5. R.U.T. Cónyuge</label>
+                        <input type="text" class="form-control" id="prop_conyuge_rut" placeholder="XX.XXX.XXX-K">
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label">Régimen Matrimonial</label>
+                        <select class="form-control" id="prop_regimen_matrimonial">
+                            <option value="Separacion de Bienes">Separación de Bienes</option>
+                            <option value="Sociedad Conjugal">Sociedad Conjugal</option>
+                            <option value="Participacion en Gananciales">Participación en los Gananciales</option>
+                            <option value="Soltero / Soltera">Soltero(a) / Divorciado(a)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="legal-clauses-box">
+            <div class="legal-header">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                CLÁUSULAS CONTRACTUALES, OBLIGACIONES Y VALIDEZ JUDICIAL
+            </div>
+            <div class="legal-text">
+                <div class="legal-clause-item">
+                    <strong>PRIMERO (MANDATO Y COMISIÓN):</strong> El Propietario encomienda y autoriza formalmente a la Asesoría Inmobiliaria / Corredor señalada en este instrumento para gestionar la intermediación y venta del inmueble individualizado. Al formalizarse cualquier promesa de compraventa, opción de compra o escritura pública respecto de la propiedad, el Propietario se compromete incondicionalmente a pagar al corredor un <span class="legal-highlight">honorario profesional equivalente al 2% (dos por ciento) más impuestos correspondientes del valor total de cierre de la transacción</span>.
+                </div>
+                <div class="legal-clause-item">
+                    <strong>SEGUNDO (EXCLUSIVIDAD Y EFECTOS):</strong> De pactarse Exclusividad, el Propietario no podrá encomendar la venta a terceros ni concretar la operación de forma directa sin la participación del Corredor. Si la venta se concreta durante la vigencia de esta orden o dentro de los 12 meses posteriores a su vencimiento a un cliente presentado o gestionado por el Corredor, la comisión se devengará íntegramente a favor de este.
+                </div>
+                <div class="legal-clause-item">
+                    <strong>TERCERO (MÉRITO EJECUTIVO Y ACCIONES):</strong> Las partes convienen expresamente que el presente documento firmado constituye título y prueba idónea suficiente del encargo y compromiso de pago, sirviendo como contrato con <span class="legal-highlight">plena validez probatoria y mérito para la interposición de acciones judiciales</span> e indemnización de perjuicios por incumplimiento ante los Tribunales Ordinarios de Justicia.
+                </div>
+                <div class="legal-clause-item">
+                    <strong>CUARTO (JURISDICCIÓN):</strong> Para todos los efectos legales y notificación procesal derivados del presente contrato, las partes fijan su domicilio en la comuna de la propiedad y se someten a la jurisdicción de sus Tribunales de Justicia.
+                </div>
+            </div>
+        </div>
+
+        <section class="signature-section">
+            <div class="signature-card">
+                <div style="font-size: 0.72rem; font-weight: 700; color: var(--primary); text-transform: uppercase;">PROPIETARIO / MANDANTE</div>
+                <div class="signature-line"></div>
+                <div class="sig-title" id="sig_nombre_prop">FIRMA PROPIETARIO(A)</div>
+                <div class="sig-detail">R.U.T: <span id="sig_rut_prop">________________________</span></div>
+                <div class="sig-detail">Representante Legal / Co-propietario</div>
+            </div>
+
+            <div class="signature-card">
+                <div style="font-size: 0.72rem; font-weight: 700; color: var(--secondary); text-transform: uppercase;">CORREDOR / ASESORÍA INMOBILIARIA</div>
+                <div class="signature-line"></div>
+                <div class="sig-title" id="sig_nombre_corr">FIRMA CORREDOR DE PROPIEDADES</div>
+                <div class="sig-detail">R.U.T / Razón Social Intermediario</div>
+                <div class="sig-detail">Recibido en conformidad</div>
+            </div>
+        </section>
+
+        <footer class="doc-footer">
+            Documento de Orden de Venta y Mandato de Corretaje confeccionado bajo estándares del Código de Comercio y Código Civil. Copia fiel para ambas partes.
+        </footer>
+
+    </div>
+
+    <script>
+        // Synchronize signature area live
+        document.getElementById('prop_nombre').addEventListener('input', function(e) {
+            document.getElementById('sig_nombre_prop').innerText = e.target.value || 'FIRMA PROPIETARIO(A)';
+        });
+
+        document.getElementById('prop_rut').addEventListener('input', function(e) {
+            document.getElementById('sig_rut_prop').innerText = e.target.value || '________________________';
+        });
+
+        document.getElementById('nombre_corredor').addEventListener('input', function(e) {
+            document.getElementById('sig_nombre_corr').innerText = e.target.value || 'FIRMA CORREDOR DE PROPIEDADES';
+        });
+
+        // Theme switching logic
+        function setTheme(themeClass) {
+            document.body.className = themeClass;
+            document.querySelectorAll('.theme-dot').forEach(dot => dot.classList.remove('active'));
+            if(event && event.target) {
+                event.target.classList.add('active');
+            }
+        }
+
+        // Auto set default date to today
+        document.addEventListener('DOMContentLoaded', () => {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('fecha_orden').value = today;
+            document.getElementById('vigencia_desde').value = today;
+            
+            // Default 90 days expiration
+            const future = new Date();
+            future.setDate(future.getDate() + 90);
+            document.getElementById('vigencia_hasta').value = future.toISOString().split('T')[0];
+        });
+
+        // Fill sample test data
+        function fillSampleData() {
+            document.getElementById('num_orden').value = "OV-2026-089";
+            document.getElementById('nombre_corredor').value = "Inmobiliaria & Asesorías Costa SpA";
+            document.getElementById('direccion_inmueble').value = "Av. Marina 1450, Depto 1204, Viña del Mar";
+            
+            // Propiedad
+            document.getElementById('prop_habitada').value = "Desocupada";
+            document.getElementById('prop_anio').value = "2021";
+            document.getElementById('prop_horarios').value = "Lunes a Sábado de 10:00 a 18:00 hrs";
+            document.getElementById('prop_tipo').value = "Departamento Vista al Mar";
+            document.getElementById('prop_material').value = "Hormigón Armado";
+            document.getElementById('prop_piso').value = "Piso 12";
+            document.getElementById('prop_sup_terreno').value = "110";
+            document.getElementById('prop_frente').value = "12";
+            document.getElementById('prop_fondo').value = "9.5";
+            document.getElementById('prop_sup_const').value = "98";
+            document.getElementById('prop_gastos_comunes').value = "140.000";
+            document.getElementById('prop_contribuciones').value = "85.000";
+            document.getElementById('prop_rol').value = "4512-88";
+            document.getElementById('prop_manzana').value = "14";
+            document.getElementById('prop_lote').value = "08";
+            document.getElementById('prop_estado_titulos').value = "Estudio Aprobado / Sin Gravámenes";
+
+            // Distribución
+            document.getElementById('dist_dorm').value = "3";
+            document.getElementById('dist_banos').value = "2";
+            document.getElementById('dist_dependencias').value = "0";
+            document.getElementById('dist_bodegas').value = "1";
+            document.getElementById('dist_estac').value = "2";
+            document.getElementById('dist_suite').value = "1";
+            document.getElementById('check_amoblada').checked = true;
+            document.getElementById('check_quincho').checked = true;
+
+            // Valores
+            document.getElementById('val_precio_venta').value = "UF 6.850 ($ 260.000.000)";
+            document.getElementById('val_tas_fiscal').value = "185.000.000";
+            document.getElementById('val_tas_bancaria').value = "265.000.000";
+            document.getElementById('escritura_fojas').value = "4120";
+            document.getElementById('escritura_numero').value = "3210";
+            document.getElementById('escritura_anio').value = "2021";
+            document.getElementById('escritura_cbr').value = "Viña del Mar";
+
+            // Propietario
+            document.getElementById('prop_nombre').value = "Carlos Eduardo Mendoza Silva";
+            document.getElementById('prop_rut').value = "15.482.910-3";
+            document.getElementById('prop_celular').value = "+56 9 8765 4321";
+            document.getElementById('prop_telefono').value = "+56 32 2345678";
+            document.getElementById('prop_email').value = "carlos.mendoza@email.com";
+            document.getElementById('prop_domicilio').value = "Av. Libertad 890, Of. 502, Viña del Mar";
+            document.getElementById('prop_conyuge_nombre').value = "María Fernanda Rojas Vera";
+            document.getElementById('prop_conyuge_rut').value = "16.123.456-7";
+
+            // Trigger signature updates
+            document.getElementById('prop_nombre').dispatchEvent(new Event('input'));
+            document.getElementById('prop_rut').dispatchEvent(new Event('input'));
+            document.getElementById('nombre_corredor').dispatchEvent(new Event('input'));
+        }
+
+        // Clear all inputs
+        function clearForm() {
+            document.querySelectorAll('input[type="text"], input[type="email"], select').forEach(input => {
+                input.value = '';
+            });
+            document.querySelectorAll('input[type="checkbox"]').forEach(check => {
+                check.checked = false;
+            });
+            document.getElementById('sig_nombre_prop').innerText = 'FIRMA PROPIETARIO(A)';
+            document.getElementById('sig_rut_prop').innerText = '________________________';
+            document.getElementById('sig_nombre_corr').innerText = 'FIRMA CORREDOR DE PROPIEDADES';
+        }
+    </script>
+</body>
+</html>

@@ -667,7 +667,7 @@
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
             </svg>
-            <span>Loreto Ignacia Gestión & Asesoría Inmobiliaria</span>
+            <span>Inmobiliaria LI</span>
         </div>
 
         <div class="toolbar-actions">
@@ -702,7 +702,7 @@
                 <svg class="logo-placeholder-icon" viewBox="0 0 24 24">
                     <path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3zm0 2.84L18 11v7h-2v-6H8v6H6v-7l6-5.16z"/>
                 </svg>
-                <div class="company-title">Loreto Ignacia Asesorías Inmobiliarias</div>
+                <div class="company-title">Inmobiliaria LI</div>
             </div>
 
             <div class="doc-title-block">
@@ -747,7 +747,8 @@
 
             <div class="auth-row-2">
                 Por la presente, autorizo formal y expresamente a la empresa de asesoría e intermediación inmobiliaria 
-                <input type="text" class="underline-input" id="nombre_corredor" placeholder="Nombre Asesoría / Corredor de Propiedades" style="width: 280px; font-weight: 700;"> 
+                <input type="text" class="underline-input" id="nombre_corredor" value="Inmobiliaria LI" placeholder="Razón Social / Nombre Corredor" style="width: 270px; font-weight: 700;"> 
+                R.U.T. N° <input type="text" class="underline-input" id="rut_corredor" placeholder="XX.XXX.XXX-K" style="width: 130px; font-weight: 700;">, 
                 para ofrecer en venta / arriendo la propiedad ubicada en: 
                 <input type="text" class="underline-input" id="direccion_inmueble" placeholder="Dirección completa del inmueble (Calle, N°, Dpto, Comuna, Ciudad)" style="width: 100%; margin-top: 6px; font-weight: 700;">
             </div>
@@ -1090,7 +1091,7 @@
                 <div style="font-size: 0.72rem; font-weight: 700; color: var(--secondary); text-transform: uppercase;">CORREDOR / ASESORÍA INMOBILIARIA</div>
                 <div class="signature-line"></div>
                 <div class="sig-title" id="sig_nombre_corr">FIRMA CORREDOR DE PROPIEDADES</div>
-                <div class="sig-detail">R.U.T / Razón Social Intermediario</div>
+                <div class="sig-detail">R.U.T: <span id="sig_rut_corr">________________________</span></div>
                 <div class="sig-detail">Recibido en conformidad</div>
             </div>
         </section>
@@ -1115,6 +1116,10 @@
             document.getElementById('sig_nombre_corr').innerText = e.target.value || 'FIRMA CORREDOR DE PROPIEDADES';
         });
 
+        document.getElementById('rut_corredor').addEventListener('input', function(e) {
+            document.getElementById('sig_rut_corr').innerText = e.target.value || '________________________';
+        });
+
         // Theme switching logic
         function setTheme(themeClass) {
             document.body.className = themeClass;
@@ -1124,7 +1129,7 @@
             }
         }
 
-        // Auto set default date to today
+        // Auto set default date to today and default company name
         document.addEventListener('DOMContentLoaded', () => {
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('fecha_orden').value = today;
@@ -1134,12 +1139,19 @@
             const future = new Date();
             future.setDate(future.getDate() + 90);
             document.getElementById('vigencia_hasta').value = future.toISOString().split('T')[0];
+
+            // Set and trigger signature update for company name
+            const corrInput = document.getElementById('nombre_corredor');
+            if (corrInput) {
+                corrInput.dispatchEvent(new Event('input'));
+            }
         });
 
         // Fill sample test data
         function fillSampleData() {
             document.getElementById('num_orden').value = "OV-2026-089";
-            document.getElementById('nombre_corredor').value = "Inmobiliaria & Asesorías Costa SpA";
+            document.getElementById('nombre_corredor').value = "Inmobiliaria LI";
+            document.getElementById('rut_corredor').value = "76.452.910-K";
             document.getElementById('direccion_inmueble').value = "Av. Marina 1450, Depto 1204, Viña del Mar";
             
             // Propiedad
@@ -1204,6 +1216,7 @@
             document.getElementById('prop_nombre').dispatchEvent(new Event('input'));
             document.getElementById('prop_rut').dispatchEvent(new Event('input'));
             document.getElementById('nombre_corredor').dispatchEvent(new Event('input'));
+            document.getElementById('rut_corredor').dispatchEvent(new Event('input'));
         }
 
         // Clear all inputs
@@ -1214,9 +1227,11 @@
             document.querySelectorAll('input[type="checkbox"]').forEach(check => {
                 check.checked = false;
             });
+            document.getElementById('nombre_corredor').value = 'Inmobiliaria LI';
             document.getElementById('sig_nombre_prop').innerText = 'FIRMA PROPIETARIO(A)';
             document.getElementById('sig_rut_prop').innerText = '________________________';
-            document.getElementById('sig_nombre_corr').innerText = 'FIRMA CORREDOR DE PROPIEDADES';
+            document.getElementById('sig_nombre_corr').innerText = 'Inmobiliaria LI';
+            document.getElementById('sig_rut_corr').innerText = '________________________';
         }
     </script>
 </body>
